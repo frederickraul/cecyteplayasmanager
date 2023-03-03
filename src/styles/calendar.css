@@ -38,3 +38,8 @@ min-height: 100%;
   margin: 0 auto;
 }
 
+.fc-day-today {
+  background: rgba(255, 80, 160,.5) !important;
+  border: none !important;
+  
+} 
