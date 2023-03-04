@@ -209,7 +209,7 @@ const renderSidebarEvent = (event) => {
               right: 'dayGridMonth,timeGridWeek,timeGridDay'
             }}
             initialView='dayGridMonth'
-            timeZone='local'
+            timeZone='America/Tijuana'
 
             locale={esLocale}
             editable={currentUser ? true : false}
