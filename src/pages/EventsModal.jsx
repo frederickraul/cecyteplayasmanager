@@ -2,7 +2,7 @@ import { DeleteIcon } from "../constantes/icons";
 
 import React from 'react'
 import Button from '@mui/material/Button';
-import { ButtonsContainer, Field, ModalContainer, ModalFooter, ModalHeader } from './styles';
+import { ButtonsContainer, Field, ModalContainer, ModalDate, ModalFooter, ModalHeader } from './styles';
 import { ModalTitle } from '../components/utils/CustomModal/styles';
 import { CloseIcon } from '../constantes/icons';
 import AnimatedModal from '../components/utils/CustomModal/AnimatedModal';
@@ -16,18 +16,19 @@ const EventsModal = (props) => {
         <AnimatedModal {...props}>
             <ModalHeader>
                 <ItemH4>{userName}</ItemH4>
-                <div>
+                <ModalDate>
                 {formatDate(start, {year: 'numeric', month: 'short', day: 'numeric'})}
-                <br/>
+                <div>
                   {allDay ?
                   'Todo el dia'
-                    :
-                      end ?  
-                      formatDate(start, {hour: 'numeric', minute: '2-digit'}) + " - " + formatDate(end, {hour: 'numeric', minute: '2-digit'})
-                      :
-                      formatDate(start, {hour: 'numeric', minute: '2-digit'})
-                    }
+                  :
+                  end ?  
+                  formatDate(start, {hour: 'numeric', minute: '2-digit'}) + " - " + formatDate(end, {hour: 'numeric', minute: '2-digit'})
+                  :
+                  formatDate(start, {hour: 'numeric', minute: '2-digit'})
+                }
                 </div>
+                </ModalDate>
             </ModalHeader>
            <ModalContainer>
            <Field>
