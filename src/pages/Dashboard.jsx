@@ -168,7 +168,7 @@ const RenderSidebar = () => {
     };
 
     updateData('events',newEvent,id);
-    window.location.reload(true);
+    //window.location.reload(true);
   }
 
   const handleConfirmEventDelete = () => {
