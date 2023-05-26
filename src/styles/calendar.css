@@ -43,3 +43,8 @@ min-height: 100%;
   border: none !important;
   
 } 
+
+li.upcommingEvents {
+  list-style-image: url('../../public/clock-with-white-face.png');
+  
+  }

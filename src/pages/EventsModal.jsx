@@ -1,6 +1,6 @@
 import { DeleteIcon } from "../constantes/icons";
 
-import React from 'react'
+import React, { useState } from 'react'
 import Button from '@mui/material/Button';
 import { ButtonsContainer, Field, ModalContainer, ModalDate, ModalFooter, ModalHeader } from './styles';
 import { ModalTitle } from '../components/utils/CustomModal/styles';
@@ -8,9 +8,15 @@ import { CloseIcon } from '../constantes/icons';
 import AnimatedModal from '../components/utils/CustomModal/AnimatedModal';
 import { ItemH2, ItemH4 } from './Inventario/styles';
 import { formatDate } from "@fullcalendar/react";
+import { MuiColorInput } from "mui-color-input";
 
 const EventsModal = (props) => {
-    const { start, end,allDay, userName, title,action, userId, currentUserId,isGod} = props;
+    const { start, end,allDay, userName, title,action, userId, currentUserId,isGod,selectedColor,setselectedColor,setisColorChanged} = props;
+
+    const handleColorChange = (newValue) => {
+      setselectedColor(newValue);
+      setisColorChanged(true);
+    }
 
     return (
         <AnimatedModal {...props}>
@@ -31,12 +37,18 @@ const EventsModal = (props) => {
                 </ModalDate>
             </ModalHeader>
            <ModalContainer>
-           <Field>
+           <div style={{display:"flex", flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
               <ItemH2>
                 {title}
               </ItemH2>
-            </Field>
-          
+              <div style={{justifyContent: 'center', display:"flex", width:'90px'}}>
+                <MuiColorInput 
+                  style={{width: '50px'}}
+                    value={selectedColor} 
+                    size="small" variant="outlined"
+                    onChange={handleColorChange}/>
+                </div>
+            </div>
          
             <ModalFooter>
                   

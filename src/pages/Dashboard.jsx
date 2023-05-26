@@ -27,6 +27,9 @@ const [selectedEvent, setselectedEvent] = useState({title:'',start:'',end:'',all
 const [selectedCalendarEvent, setSelectedCalendarEvent] = useState([]);
 const [isEventListOpen, setIsEventListOpen] = useState(false);
 
+const [selectedColor, setselectedColor] = useState('#3788D8')
+const [isColorChanged, setisColorChanged] = useState(false);
+
 useEffect(() => {
   getData('events',setINITIAL_EVENTS,'start');
   getData('events',setcurrentEvents,'start');
@@ -45,7 +48,7 @@ const RenderSidebar = () => {
           <h2>Eventos ({INITIAL_EVENTS.filter((event=>new Date(event.start).setHours(0,0,0,0) >= new Date().setHours(0,0,0,0))).length})</h2>
           <ul>
             {INITIAL_EVENTS.filter((event=>new Date(event.start).setHours(0,0,0,0) >= new Date().setHours(0,0,0,0))).map((event) =>(
-                  <li  key={event.id} className={(moment(event.start).format("YYYY-MM-DD")) === today ? "fc-day-today" : ""}>
+                  <li key={event.id} className={(moment(event.start).format("YYYY-MM-DD")) === today ? "fc-day-today upcommingEvents" : "upcommingEvents"}>
                     <b>{formatDate(event.start, {year: 'numeric', month: 'short', day: 'numeric'})}</b>
           
                     <br/>
@@ -75,6 +78,14 @@ const RenderSidebar = () => {
   
   }
 
+  const handleEventClose = ()=>{
+      handleCloseModal();
+      if(isColorChanged){
+        handleEventUpdate(selectedCalendarEvent);
+        setisColorChanged(false);
+      }
+  }
+
   const handleWeekendsToggle = () => {
     setweekendsVisible(!weekendsVisible);
   }
@@ -92,7 +103,7 @@ const RenderSidebar = () => {
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
-        allDay: selectInfo.allDay
+        allDay: selectInfo.allDay,
       })
     }
   }
@@ -104,6 +115,9 @@ const RenderSidebar = () => {
     });
     handleCloseModal();
     setselectedEvent(event);
+    console.log(event);
+    const color = event.color ? event.color : '#3788D8';
+    setselectedColor(color);
     setSelectedCalendarEvent(clickInfo)
   }
 
@@ -122,7 +136,6 @@ const RenderSidebar = () => {
         allDay: clickInfo.event.allDay,
         userName: currentUser.name,
         userId: userId,
-        color: 'red',
     };
     const response = await saveData('events',newEvent);
     newEvent.id = response;
@@ -150,9 +163,12 @@ const RenderSidebar = () => {
       allDay: allDay,
       userName: userName,
       userId: userId,
+      color: selectedColor,
+
     };
 
     updateData('events',newEvent,id);
+    window.location.reload(true);
   }
 
   const handleConfirmEventDelete = () => {
@@ -233,7 +249,7 @@ const renderSidebarEvent = (event) => {
           <EventsModal
             open={isModalOpen}
             action={handleConfirmEventDelete}
-            onClose={handleCloseModal}
+            onClose={handleEventClose}
             title={selectedEvent.title}
             start={selectedEvent.start}
             end={selectedEvent.end}
@@ -242,6 +258,9 @@ const renderSidebarEvent = (event) => {
             userId={selectedEvent.userId}
             currentUserId={currentUser? currentUser.uid : ''}
             isGod={isGod}
+            selectedColor={selectedColor}
+            setselectedColor={setselectedColor}
+            setisColorChanged={setisColorChanged}
           />
      </CalendarContainer>
 
